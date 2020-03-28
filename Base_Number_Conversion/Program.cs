@@ -34,16 +34,16 @@ namespace Base_Number_Conversion
 
         }
 
-        public static string bin2oct(int input)    //binary to octal
+        public static int bin2oct(int input)    //binary to octal
         {
-            string result = "";
-
+            int temp = bin2dec(input);
+            int result = dec2oct(temp);
 
             return result;
         }
         public static int bin2dec(int input)    //binary to decimal
         {
-            int result=0;
+            int result = 0;
             int inputLength = 1;
             int temp = input;
 
@@ -69,29 +69,87 @@ namespace Base_Number_Conversion
 
             return result;
         }
-        public static string oct2bin(int input)    //octal to binary
+        public static int oct2bin(int input)    //octal to binary
         {
-            string result = "";
-
+            int temp = oct2dec(input);
+            int result = dec2bin(temp);
 
             return result;
         }
-        public static string oct2dec(int input)    //octal to decimal
+        public static int oct2dec(int input)    //octal to decimal
         {
-            string result = "";
+            int result = 0;
+            int inputLength = 1;
+            int temp = input;
+
+            //for loop finds length which will also be the exponent
+            for (int i = 0; temp > 9; i++)
+            {
+                temp = temp / 10;
+                inputLength++;
+            }
+
+            double exponent = inputLength - 1;
+            //converting to decimal
+            for (int i = inputLength; i > 0; i--)
+            {
+                temp = input / Convert.ToInt32(Math.Pow(10, exponent));     
+                if (temp > 0 && temp < 8)
+                {
+                    input -= temp * Convert.ToInt32(Math.Pow(10, exponent));
+                    result += (temp * Convert.ToInt32(Math.Pow(8, exponent)));
+                }
+                exponent--;
+            }
+
             return result;
         }
-        public static string dec2bin(int input)    //decimal to binary
+        public static int dec2bin(int input)    //decimal to binary
         {
-            string result = "";
+            int result = 0;
+            int binCount = 0;
+            //finding digits in binary
+            for (int i = 0; Math.Pow (2, i) <= input ; i++)
+            {
+                binCount++;
+            }
 
+            int exponent = binCount - 1;
+            //convert to binary
+            for (int i = binCount; i > 0; i--)
+            {
+                if (Math.Pow(2, exponent) <= input)
+                {
+                    input -= Convert.ToInt32(Math.Pow(2, exponent));
+                    result += Convert.ToInt32(Math.Pow(10, exponent));
+                }
+                exponent--;
+            }
 
             return result;
         }
-        public static string dec2oct(int input)    //decimal to octal
+        public static int dec2oct(int input)    //decimal to octal
         {
-            string result = "";
+            int result = 0;
+            int binCount = 0;
+            //finding digits in binary
+            for (int i = 0; Math.Pow(8, i) <= input; i++)
+            {
+                binCount++;
+            }
 
+            int exponent = binCount - 1;
+            //convert to binary
+            for (int i = binCount; i > 0; i--)
+            {
+                if (Math.Pow(8, exponent) <= input)
+                {
+                    int octDigit = input / Convert.ToInt32(Math.Pow(8, exponent));
+                    input -= octDigit * Convert.ToInt32(Math.Pow(8, exponent));
+                    result += octDigit * Convert.ToInt32(Math.Pow(10, exponent));
+                }
+                exponent--;
+            }
 
             return result;
         }
