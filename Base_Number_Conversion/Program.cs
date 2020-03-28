@@ -43,16 +43,30 @@ namespace Base_Number_Conversion
         }
         public static int bin2dec(int input)    //binary to decimal
         {
-            int result = 0;
-            double exponent = 0;
-            for (int i = input.Length - 1; i >= 0 ; i--)
-            {
-                double baseValue = Math.Pow((double)input[i], exponent);
+            int result=0;
+            int inputLength = 1;
+            int temp = input;
 
-                result += Convert.ToInt32(baseValue);
-                exponent++;
+            //for loop finds length which will also be the exponent
+            for (int i = 0; temp > 9; i++)
+            {
+                temp = temp / 10;
+                inputLength++;
             }
-           
+
+            double exponent = inputLength - 1;
+            //converting to decimal
+            for (int i = inputLength; i > 0; i--)
+            {
+                temp = input / Convert.ToInt32(Math.Pow(10, exponent));
+                if (temp == 1)
+                {
+                    input = input - Convert.ToInt32(Math.Pow(10, exponent));
+                    result += Convert.ToInt32(Math.Pow(2, exponent));
+                }
+                exponent--;
+            }
+
             return result;
         }
         public static string oct2bin(int input)    //octal to binary
@@ -65,8 +79,6 @@ namespace Base_Number_Conversion
         public static string oct2dec(int input)    //octal to decimal
         {
             string result = "";
-
-
             return result;
         }
         public static string dec2bin(int input)    //decimal to binary
