@@ -6,32 +6,103 @@ namespace Base_Number_Conversion
     {
         static void Main(string[] args)
         {
-            //TODO: try catch positive input
-            Console.WriteLine("Please enter the positive integer to convert: ");
-            int number = Convert.ToInt32(Console.ReadLine());
+            try
+            {
+                EnterInfo();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                EnterInfo();
+                throw;
+            }
 
+        }
+
+        public static void EnterInfo()
+        {
+            int from = 0;
+            int number = -1;
+            string temp = "";
+
+            while (from != 2 && from != 8 && from !=10)
+            { 
             Console.WriteLine("Please enter the base to convert from [2 | 8 | 10]: ");
-            int from = int.Parse(Console.ReadLine());
+            from = int.Parse(Console.ReadLine());
+            }
 
-            Console.WriteLine($"Number: {number}, base: {from}");
             if (from == 10)
             {
+                while (number < 0 || temp == "")
+                {
+                    Console.WriteLine("Please enter the positive integer to convert: ");
+                    temp = Console.ReadLine();
+                    if (temp != "")
+                    {
+                        number = Convert.ToInt32(temp);
+                    }
+                }
+                Console.WriteLine($"Number: {number}, base: {from}");
+
                 Console.WriteLine($"binary conversion is {dec2bin(number)}");
                 Console.WriteLine($"octal conversion is {dec2oct(number)}");
             }
             else if (from == 2)
             {
+                while (number < 0 || temp == "")
+                {
+                    Console.WriteLine("Please enter the positive integers to convert: ");
+                    temp = Console.ReadLine();
+                    foreach (var x in temp)
+                    {
+                        if (x != '0' && x != '1')
+                        {
+                            Console.WriteLine("Invalid entry");
+                            EnterInfo();
+                        }
+                    }
+                    if (temp != "")
+                    {
+                        number = Convert.ToInt32(temp);
+                    }
+                }
+                Console.WriteLine($"Number: {number}, base: {from}");
+
                 Console.WriteLine($"decimal conversion is {bin2dec(number)}");
                 Console.WriteLine($"octal conversion is {bin2oct(number)}");
             }
             else if (from == 8)
             {
+                while (number < 0 || temp == "")
+                {
+                    Console.WriteLine("Please enter the positive integer to convert: ");
+                    temp = Console.ReadLine();
+                    foreach (var x in temp)
+                    {
+                        if (x != '0' && x != '1' && x != '2' && x != '3' && x != '4' && x != '5' && x != '6' && x != '7')
+                        {
+                            Console.WriteLine("Invalid entry");
+                            EnterInfo();
+                        }
+                    }
+                    if (temp != "")
+                    {
+                        number = Convert.ToInt32(temp);
+                    }
+                }
+                Console.WriteLine($"Number: {number}, base: {from}");
+
                 Console.WriteLine($"binary conversion is {oct2bin(number)}");
                 Console.WriteLine($"decimal conversion is {oct2dec(number)}");
             }
             else
                 Console.WriteLine("Error in base to convert from");
 
+
+            Console.WriteLine("\t\nPress Enter to restart");
+            Console.ReadKey();
+            Console.Clear();
+            EnterInfo();
         }
 
         public static int bin2oct(int input)    //binary to octal
@@ -132,14 +203,14 @@ namespace Base_Number_Conversion
         {
             int result = 0;
             int binCount = 0;
-            //finding digits in binary
+            //finding digits in octal
             for (int i = 0; Math.Pow(8, i) <= input; i++)
             {
                 binCount++;
             }
 
             int exponent = binCount - 1;
-            //convert to binary
+            //convert to octal
             for (int i = binCount; i > 0; i--)
             {
                 if (Math.Pow(8, exponent) <= input)
